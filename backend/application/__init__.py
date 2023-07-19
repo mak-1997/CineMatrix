@@ -1,13 +1,13 @@
 from flask import Flask
-from dotenv import load_dotenv
-import os
+from flask_bcrypt import Bcrypt
+from application.db_connection import create_db_connection
+from application.routes.user_routes import user_routes
 
 app = Flask(__name__)
 
-load_dotenv()
-database_url = os.getenv('DATABASE_URL')
+bcrypt = Bcrypt(app)
+db = create_db_connection(app)
 
-@app.route("/", methods=["GET"])
-def getData() :
-    print(database_url)
-    return "hello"
+app.register_blueprint(user_routes)
+
+
