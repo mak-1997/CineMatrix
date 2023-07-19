@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from application.models import User
+import jwt
 
 user_routes = Blueprint("user_routes", __name__)
 
 
 @user_routes.route("/", methods=["GET"])
-def getData():
+def get_all_users():
     try:
         all_users = User.objects().to_json()
         print("Database connection is active", all_users)
@@ -17,6 +18,9 @@ def getData():
 
 @user_routes.route("/user/signup", methods=["POST"])
 def user_signup():
+    if request.method != "POST" :
+        return jsonify({"error message" : "Wrong method for this request"})
+    
     new_user = request.get_json()
 
     # Check if the user_email already exists
@@ -36,7 +40,32 @@ def user_signup():
         user_email=new_user["user_email"],
         user_password=hashed_password,
         user_name=new_user["user_name"],
+        wallet_balance = 1500,
+        bio = new_user["bio"],
+        membership_type = new_user["membership_type"],
+        gender = new_user["gender"],
+        user_status = 'active',
+        dob = new_user["dob"],
+        movie_show_bookings = [],
+        event_show_bookings = []
     )
     user.save()
 
     return jsonify({"message": "Signup successful"}), 201
+
+
+@user_routes.route("/user/login", methods=["POST"])
+def user_login() :
+    login_data = request.get_json()
+
+    user = User.onjects(user_email = login_data["user_email"]).first()
+    if not user :
+        return jsonify({"message" : "Wrong Email"}), 400
+    
+    from application import bcrypt
+
+    if bcrypt.check_password_hash(user.user_password, login_data["user_password"]):
+        token = jwt.encode({"_id" : str(user.id)}, "my signature", algorithm="HS256")
+        return jsonify({"message" : "Login successful", "token" : token}), 200
+    else :
+        return jsonify({"message" : "Wrong password !!"}), 400
