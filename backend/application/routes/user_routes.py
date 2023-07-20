@@ -58,7 +58,7 @@ def user_signup():
 def user_login() :
     login_data = request.get_json()
 
-    user = User.onjects(user_email = login_data["user_email"]).first()
+    user = User.objects(user_email = login_data["user_email"]).first()
     if not user :
         return jsonify({"message" : "Wrong Email"}), 400
     
