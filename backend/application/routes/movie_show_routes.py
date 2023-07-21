@@ -127,10 +127,21 @@ def book_movie_show(_id):
     if not movie_show:
         return jsonify({"message": "Movie_Show not found"}), 404
 
+    def count_non_zero_values(arr):
+        count = 0
+        for row in arr:
+            for value in row:
+                if value != 0:
+                    count += 1
+        return count
     # Update the fields of the existing Movie_Show object with the new data
     for key, value in booked_show_data.items():
         if key == "movie_id" or key == "_id" :
             continue
+        elif key == "seat_map" :
+            setattr(movie_show, key, value)
+            count = count_non_zero_values(value)
+            setattr(movie_show, "booked_seats", count)
         else :
             setattr(movie_show, key, value)
 
