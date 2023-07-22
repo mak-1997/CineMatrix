@@ -16,6 +16,11 @@ export const user_login = async (user_data) => {
   return res;
 };
 
+export const get_movies = async() => {
+  let res = await axios.get(`${backend_url}/movies/get`);
+  return res;
+}
+
 /////////////////////////////////////////////////////////////////
 
 export const admin_signup = async (admin_data) => {
