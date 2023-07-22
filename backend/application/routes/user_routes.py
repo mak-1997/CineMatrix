@@ -58,7 +58,7 @@ def user_signup():
 def user_login() :
     login_data = request.get_json()
 
-    user = User.onjects(user_email = login_data["user_email"]).first()
+    user = User.objects(user_email = login_data["user_email"]).first()
     if not user :
         return jsonify({"message" : "Wrong Email"}), 400
     
@@ -66,6 +66,6 @@ def user_login() :
 
     if bcrypt.check_password_hash(user.user_password, login_data["user_password"]):
         token = jwt.encode({"_id" : str(user.id)}, "my signature", algorithm="HS256")
-        return jsonify({"message" : "Login successful", "token" : token}), 200
+        return jsonify({"message" : "Login successful", "token" : token, "username" : user.user_name}), 200
     else :
         return jsonify({"message" : "Wrong password !!"}), 400
