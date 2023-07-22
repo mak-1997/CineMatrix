@@ -66,6 +66,6 @@ def user_login() :
 
     if bcrypt.check_password_hash(user.user_password, login_data["user_password"]):
         token = jwt.encode({"_id" : str(user.id)}, "my signature", algorithm="HS256")
-        return jsonify({"message" : "Login successful", "token" : token}), 200
+        return jsonify({"message" : "Login successful", "token" : token, "username" : user.user_name}), 200
     else :
         return jsonify({"message" : "Wrong password !!"}), 400

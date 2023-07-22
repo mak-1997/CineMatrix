@@ -7,9 +7,10 @@ from application.routes.movie_routes import movie_routes
 from application.routes.event_routes import event_routes
 from application.routes.movie_show_routes import movie_show_routes
 from application.routes.event_show_routes import event_show_routes
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 bcrypt = Bcrypt(app)
 db = create_db_connection(app)
 
