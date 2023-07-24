@@ -16,8 +16,7 @@ import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { ColorContext } from "../contexts/ColorContextProvider";
-import { AuthContext } from "../contexts/AuthContextProvider";
-import { Create_Show_Modal } from "./Create_Show_Modal";
+import { Book_Show_Modal } from "./Book_Show_Modal";
 
 const data = {
   isNew: true,
@@ -29,48 +28,15 @@ const data = {
   numReviews: 34,
 };
 
-function Rating({ rating, numReviews }) {
-  return (
-    <Flex alignItems="center">
-      {Array(5)
-        .fill("")
-        .map((_, i) => {
-          const roundedRating = Math.round(rating * 2) / 2;
-          if (roundedRating - i >= 1) {
-            return (
-              <BsStarFill
-                key={i}
-                style={{ marginLeft: "1" }}
-                color={i < rating ? "teal.500" : "gray.300"}
-              />
-            );
-          }
-          if (roundedRating - i === 0.5) {
-            return <BsStarHalf key={i} style={{ marginLeft: "1" }} />;
-          }
-          return <BsStar key={i} style={{ marginLeft: "1" }} />;
-        })}
-      <Box as="span" ml="2" color="gray.600" fontSize="sm">
-        {numReviews} review{numReviews > 1 && "s"}
-      </Box>
-    </Flex>
-  );
-}
-
-function Movie_Card({ elem }) {
-  const { c1,c2, c3, c4,c5, c6 } = React.useContext(ColorContext);
-  const {admin_flag} = React.useContext(AuthContext);
+function Shows_Card({ elem }) {
+  const { c1, c2, c3, c4, c5, c6 } = React.useContext(ColorContext);
 
   console.log(elem);
   const navigate = useNavigate();
-  const handleClick = (elem) => {
-    if(admin_flag){
-
-    }
-    else{
-      navigate(`/related_movie_shows/${elem._id["$oid"]}`);
-    }
-  };
+  // const handleClick = (elem) => {
+  //   // elem.hasOwnProperty("movie_name") ? navigate("/book/movie") : navigate("/book/event")
+  //   Book_Show_Modal(elem)
+  // };
   return (
     <Flex p={50} w="full" alignItems="center" justifyContent="center">
       <Box
@@ -96,33 +62,44 @@ function Movie_Card({ elem }) {
               lineHeight="tight"
               isTruncated
             >
-              {elem.movie_name}
+              {elem.hasOwnProperty("movie_name")
+                ? elem.movie_name
+                : elem.event_name}
             </Box>
           </Flex>
 
           <Flex justifyContent="space-between" alignContent="center">
-            <Rating rating={data.rating} numReviews={data.numReviews} />
+            <Flex fontSize="2xl">
+              <Text>Price : ₹ </Text>
+              <Text>{elem.price}</Text>
+            </Flex>
             <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
               <Box as="span" color={"gray.600"} fontSize="lg"></Box>
               {`${elem.duration} Hr`}
             </Box>
           </Flex>
+          <Flex justifyContent="space-between" alignContent="center" fontSize={"xl"} >
+            <Text>From : {elem.start_time} </Text>
+            <Text>To : {elem.end_time} </Text>
+          </Flex>
+          <Flex flexDir={"column"} justifyContent="space-between" alignContent="center" fontSize={"xl"} textAlign={"left"} >
+            <Text>Total seats : {elem.total_seats} </Text>
+            <Text>Available seats : {elem.total_seats - elem.booked_seats} </Text>
+            <Text>Date : {elem.date}</Text>
+          </Flex>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Flex gap="2" alignItems={"center"}>
-              {" "}
-              {elem.language.map((lang) => (
-                <Box
-                  bg={c4}
-                  paddingLeft={"2"}
-                  paddingRight={"2"}
-                  borderRadius={"5"}
-                >
-                  <Text id={lang} as="b">
-                    {" "}
-                    {lang}{" "}
-                  </Text>
-                </Box>
-              ))}{" "}
+              <Box
+                bg={c4}
+                paddingLeft={"2"}
+                paddingRight={"2"}
+                borderRadius={"5"}
+              >
+                <Text id={elem._id} as="b">
+                  {" "}
+                  {elem.language}{" "}
+                </Text>
+              </Box>
             </Flex>
             <Tooltip
               label="See all shows related to this movie"
@@ -131,13 +108,7 @@ function Movie_Card({ elem }) {
               color={"gray.800"}
               fontSize={"1em"}
             >
-              <Button
-                size="sm"
-                colorScheme="green"
-                onClick={() => handleClick(elem)}
-              >
-               { admin_flag ? <Create_Show_Modal elem={elem} /> : "Shows"}
-              </Button>
+              <Book_Show_Modal elem={elem} />
             </Tooltip>
           </Flex>
         </Box>
@@ -146,4 +117,4 @@ function Movie_Card({ elem }) {
   );
 }
 
-export default Movie_Card;
+export default Shows_Card;

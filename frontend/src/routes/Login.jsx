@@ -18,13 +18,13 @@ import {
 import { ColorContext } from "../contexts/ColorContextProvider";
 import { user_login } from "../API/API_Calls";
 import { useToast } from "@chakra-ui/react";
-import {AuthContext} from '../contexts/AuthContextProvider';
-import {useNavigate} from 'react-router-dom';
-
+import { AuthContext } from "../contexts/AuthContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { c1, c4, c6 } = React.useContext(ColorContext);
-  const {token, setToken, username, setUsername} = React.useContext(AuthContext)
+  const { token, setToken, username, setUsername, email, setEmail } =
+    React.useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -34,6 +34,7 @@ const Login = () => {
   const toast = useToast();
 
   const handleLogin = async () => {
+    setEmail(user_email);
     const user_data = {
       user_email,
       user_password,
@@ -51,8 +52,7 @@ const Login = () => {
       setUsername(response.data.username);
       // localStorage.setItem("cinematrix_username", JSON.stringify(response.data.username));
       // localStorage.setItem("cinematrix_token", JSON.stringify(response.data.token));
-      navigate("/")
-
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast({

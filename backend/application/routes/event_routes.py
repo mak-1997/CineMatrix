@@ -6,6 +6,13 @@ import jwt
 
 event_routes = Blueprint("event_routes", __name__ )
 
+
+@event_routes.route("/events/get", methods=["GET"])
+def get_all_movies():
+    all_events = Event.objects()
+    return all_events.to_json(), 200
+
+
 @event_routes.route("/event/add", methods=["POST"])
 @admin_auth_middleware
 def add_event () :

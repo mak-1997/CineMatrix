@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Container, Grid, Text } from "@chakra-ui/react";
-import { get_events, get_movies } from "../API/API_Calls";
-import Movie_Card from "../components/Movie_Card";
-import Event_Card from "../components/Event_Card";
+import { get_events, get_movies } from "../../API/API_Calls";
+import Movie_Card from "../../components/Movie_Card";
+import Event_Card from "../../components/Event_Card";
 
-const Home = () => {
+const Create_Show = () => {
   const [movie_data, set_Movie_data] = React.useState([]);
   const [event_data, set_Event_data] = React.useState([]);
 
@@ -36,7 +36,7 @@ const Home = () => {
     <Box>
       <Box >
         <Text fontSize={"2xl"} fontStyle={"italic"} as="b"  >Movies</Text>
-        <Grid templateColumns={"repeat(4,1fr)"}>
+        <Grid templateColumns={"repeat(3,1fr)"}>
           {movie_data?.map((elem) => {
             return <Movie_Card key={elem._id["$oid"]} elem={elem} />;
           })}
@@ -45,7 +45,7 @@ const Home = () => {
       <hr/>
       <Box >
         <Text fontSize={"2xl"} fontStyle={"italic"} as="b"  >Events</Text>
-        <Grid templateColumns={"repeat(4,1fr)"}>
+        <Grid templateColumns={"repeat(3,1fr)"}>
           {event_data?.map((elem) => {
             return <Event_Card key={elem._id["$oid"]} elem={elem} />;
           })}
@@ -55,4 +55,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Create_Show;

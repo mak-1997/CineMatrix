@@ -52,7 +52,7 @@ const Admin_Login = () => {
       // localStorage.setItem("cinematrix_username", JSON.stringify(response.data.username));
       // localStorage.setItem("cinematrix_token", JSON.stringify(response.data.token));
       set_Admin_flag(true)
-      navigate("/admin/get/movies")
+      navigate("/admin/add/show")
 
     } catch (error) {
       console.log(error);
