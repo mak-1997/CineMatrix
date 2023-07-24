@@ -47,7 +47,7 @@ const Admin_Signup = () => {
         duration: 3000,
         isClosable: true,
       });
-      navigate("/user/login")
+      navigate("/admin/login")
     } catch (error) {
       console.log(error);
       toast({

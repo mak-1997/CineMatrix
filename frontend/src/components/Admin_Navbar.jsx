@@ -21,7 +21,7 @@ const Admin_Navbar = () => {
   const handleLogout = () => {
     setUsername("");
     setToken("");
-    set_Admin_flag(false)
+    set_Admin_flag(false);
     // localStorage.setItem("cinematrix_username",JSON.stringify(""))
     // localStorage.setItem("cinematrix_token",JSON.stringify(""))
   };
@@ -51,32 +51,25 @@ const Admin_Navbar = () => {
         </Text>
       </Link>
       <Flex gap="10">
-        <Link to={"/admin/add/movies"}>
+        <Link to={"/admin/add/movie"}>
           {" "}
           <Text _hover={{ color: "white", textDecoration: "underline" }} as="b">
             {" "}
             Add Movies{" "}
           </Text>{" "}
         </Link>
-        <Link to={"/admin/add/events"}>
+        <Link to={"/admin/add/event"}>
           {" "}
           <Text _hover={{ color: "white", textDecoration: "underline" }} as="b">
             {" "}
             Add Events{" "}
           </Text>{" "}
         </Link>
-        <Link to={"/admin/get/movies"}>
+        <Link to={"/admin/add/show"}>
           {" "}
           <Text _hover={{ color: "white", textDecoration: "underline" }} as="b">
             {" "}
-            Get all movies{" "}
-          </Text>{" "}
-        </Link> 
-        <Link to={"/admin/get/events"}>
-          {" "}
-          <Text _hover={{ color: "white", textDecoration: "underline" }} as="b">
-            {" "}
-            Get all events{" "}
+            Create a new show{" "}
           </Text>{" "}
         </Link>
       </Flex>
@@ -94,7 +87,7 @@ const Admin_Navbar = () => {
         <Link to={"/user/signup"}>
           <Button>Signup</Button>
         </Link>
-        <Link to="/admin/login" >
+        <Link to="/admin/login">
           <Button colorScheme="red">Admin Login</Button>
         </Link>
       </Flex>
